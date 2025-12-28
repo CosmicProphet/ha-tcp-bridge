@@ -16,7 +16,7 @@ Connect via: telnet <ip> 8124
 Line ending: CRLF (\r\n)
 """
 
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 
 import socket
 import threading

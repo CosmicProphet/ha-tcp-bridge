@@ -6,7 +6,6 @@ RUN pip3 install --no-cache-dir requests
 
 # Copy application
 COPY server.py /
-COPY run.sh /
-RUN chmod +x /run.sh
 
-CMD [ "/run.sh" ]
+# Copy s6-overlay service
+COPY rootfs /
