@@ -9,3 +9,6 @@ COPY server.py /
 
 # Copy s6-overlay service
 COPY rootfs /
+
+# Make run script executable
+RUN chmod +x /etc/services.d/ha-tcp-bridge/run
