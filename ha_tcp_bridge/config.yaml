@@ -1,0 +1,19 @@
+name: "TCP Bridge for Crestron"
+description: "TCP socket server bridging Crestron/telnet commands to Home Assistant"
+version: "1.0.0"
+slug: "ha_tcp_bridge"
+url: "https://github.com/CosmicProphet/ha-tcp-bridge"
+arch:
+  - amd64
+  - aarch64
+startup: services
+homeassistant_api: true
+ports:
+  8124/tcp: 8124
+ports_description:
+  8124/tcp: "TCP Bridge port for Crestron"
+options:
+  port: 8124
+schema:
+  port: int
+host_network: true
