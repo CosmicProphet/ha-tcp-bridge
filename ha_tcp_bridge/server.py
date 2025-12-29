@@ -16,7 +16,7 @@ Connect via: telnet <ip> 8124
 Line ending: CRLF (\r\n)
 """
 
-VERSION = "1.0.2"
+VERSION = "1.0.3"
 
 import socket
 import threading
@@ -120,7 +120,7 @@ Example: LEVEL light.living_room 50"""
 
     elif action == "LIST":
         entities = get_entity_list()
-        return f"OK: {len(entities)} entities\n" + "\n".join(entities[:50])
+        return f"OK: {len(entities)} entities\n" + "\n".join(entities)
 
     elif action == "LISTBUTTONS":
         status, states = ha_request("GET", "states")

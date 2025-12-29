@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.3] - 2025-12-27
+
+### Fixed
+- LIST command now shows all entities (removed 50 entity limit)
+
 ## [1.0.2] - 2025-12-27
 
 ### Fixed

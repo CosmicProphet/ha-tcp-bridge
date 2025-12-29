@@ -1,6 +1,6 @@
 name: "TCP Bridge for Crestron"
 description: "TCP socket server bridging Crestron/telnet commands to Home Assistant"
-version: "1.0.2"
+version: "1.0.3"
 slug: "ha_tcp_bridge"
 url: "https://github.com/CosmicProphet/ha-tcp-bridge"
 arch:
