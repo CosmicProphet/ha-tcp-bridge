@@ -24,6 +24,7 @@ Control Home Assistant entities via telnet-style commands.
 | `LEVEL <entity> <0-100>` | Set brightness | `LEVEL light.living_room 75` |
 | `LIST` | List all entities | `LIST` |
 | `LISTBUTTONS` | List button entities | `LISTBUTTONS` |
+| `LISTLIGHTS` | List light entities | `LISTLIGHTS` |
 
 ## Response Format
 

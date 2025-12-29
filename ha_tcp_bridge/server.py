@@ -16,7 +16,7 @@ Connect via: telnet <ip> 8124
 Line ending: CRLF (\r\n)
 """
 
-VERSION = "1.0.3"
+VERSION = "1.0.4"
 
 import socket
 import threading
@@ -108,6 +108,7 @@ OFF <entity_id>           - Turn off light/switch
 LEVEL <entity_id> <0-100> - Set brightness
 LIST                      - List entities
 LISTBUTTONS               - List button entities only
+LISTLIGHTS                - List light entities only
 PING                      - Test connection
 
 Example: PRESS button.kitchen_keypad_bright
@@ -132,6 +133,18 @@ Example: LEVEL light.living_room 50"""
                     name = entity.get("attributes", {}).get("friendly_name", eid)
                     buttons.append(f"{eid} - {name}")
         return f"OK: {len(buttons)} buttons\n" + "\n".join(buttons)
+
+    elif action == "LISTLIGHTS":
+        status, states = ha_request("GET", "states")
+        lights = []
+        if status == 200:
+            for entity in states:
+                eid = entity.get("entity_id", "")
+                if eid.startswith("light."):
+                    state = entity.get("state", "")
+                    name = entity.get("attributes", {}).get("friendly_name", eid)
+                    lights.append(f"{eid} [{state}] - {name}")
+        return f"OK: {len(lights)} lights\n" + "\n".join(lights)
 
     elif action == "PRESS":
         if len(parts) < 2:

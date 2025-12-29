@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.4] - 2025-12-27
+
+### Added
+- LISTLIGHTS command to list only light entities
+
 ## [1.0.3] - 2025-12-27
 
 ### Fixed

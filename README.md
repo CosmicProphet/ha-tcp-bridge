@@ -34,6 +34,7 @@ nc <homeassistant-ip> 8124
 | `LEVEL <entity> <0-100>` | Set brightness | `LEVEL light.living_room 75` |
 | `LIST` | List all entities | `LIST` |
 | `LISTBUTTONS` | List button entities | `LISTBUTTONS` |
+| `LISTLIGHTS` | List light entities | `LISTLIGHTS` |
 | `HELP` | Show commands | `HELP` |
 
 ### Response Format
