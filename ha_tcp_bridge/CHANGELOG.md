@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.5] - 2025-12-27
+
+### Added
+- Entity validation before executing commands (PRESS, ON, OFF, LEVEL)
+- Returns `ERR: Entity '<entity_id>' not found` for non-existent entities
+
 ## [1.0.4] - 2025-12-27
 
 ### Added

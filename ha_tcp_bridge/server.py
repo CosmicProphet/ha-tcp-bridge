@@ -16,7 +16,7 @@ Connect via: telnet <ip> 8124
 Line ending: CRLF (\r\n)
 """
 
-VERSION = "1.0.4"
+VERSION = "1.0.5"
 
 import socket
 import threading
@@ -87,6 +87,11 @@ def get_entity_list():
                 result.append(f"{eid} [{state}] - {name}")
     return result
 
+def entity_exists(entity_id):
+    """Check if an entity exists in Home Assistant"""
+    status, resp = ha_request("GET", f"states/{entity_id}")
+    return status == 200
+
 def handle_command(cmd):
     """Process a command and return response"""
     cmd = ''.join(c for c in cmd if c.isprintable() or c.isspace()).strip()
@@ -153,6 +158,9 @@ Example: LEVEL light.living_room 50"""
         if not entity_id.startswith("button."):
             entity_id = f"button.{entity_id}"
 
+        if not entity_exists(entity_id):
+            return f"ERR: Entity '{entity_id}' not found"
+
         status, resp = ha_request("POST", "services/button/press", {"entity_id": entity_id})
         if status == 200:
             return f"OK: Pressed {entity_id}"
@@ -173,6 +181,9 @@ Example: LEVEL light.living_room 50"""
         else:
             service = "homeassistant/turn_on"
 
+        if not entity_exists(entity_id):
+            return f"ERR: Entity '{entity_id}' not found"
+
         status, resp = ha_request("POST", f"services/{service}", {"entity_id": entity_id})
         return f"OK: {entity_id} on" if status == 200 else f"ERR: {resp}"
 
@@ -190,6 +201,9 @@ Example: LEVEL light.living_room 50"""
         else:
             service = "homeassistant/turn_off"
 
+        if not entity_exists(entity_id):
+            return f"ERR: Entity '{entity_id}' not found"
+
         status, resp = ha_request("POST", f"services/{service}", {"entity_id": entity_id})
         return f"OK: {entity_id} off" if status == 200 else f"ERR: {resp}"
 
@@ -206,6 +220,9 @@ Example: LEVEL light.living_room 50"""
 
         if not entity_id.startswith("light."):
             entity_id = f"light.{entity_id}"
+
+        if not entity_exists(entity_id):
+            return f"ERR: Entity '{entity_id}' not found"
 
         brightness = int(level * 255 / 100)
         status, resp = ha_request("POST", "services/light/turn_on", {
