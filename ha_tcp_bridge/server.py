@@ -16,7 +16,7 @@ Connect via: telnet <ip> 8124
 Line ending: CRLF (\r\n)
 """
 
-VERSION = "1.0.6"
+VERSION = "1.0.7"
 
 import socket
 import threading
@@ -156,6 +156,7 @@ Example: LEVEL light.living_room 50"""
                 name = entity.get("attributes", {}).get("friendly_name", eid)
                 results.append(f"{eid} [{state}] - {name}")
         
+        results.sort()
         filter_desc = f" matching '{' '.join(filters)}'" if filters else ""
         return f"OK: {len(results)} entities{filter_desc}\n" + "\n".join(results)
 

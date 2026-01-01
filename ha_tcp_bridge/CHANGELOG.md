@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.7] - 2025-12-27
+
+### Changed
+- LIST command results are now sorted alphabetically
+
 ## [1.0.6] - 2025-12-27
 
 ### Changed
