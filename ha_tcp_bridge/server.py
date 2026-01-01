@@ -16,7 +16,7 @@ Connect via: telnet <ip> 8124
 Line ending: CRLF (\r\n)
 """
 
-VERSION = "1.0.5"
+VERSION = "1.0.6"
 
 import socket
 import threading
@@ -111,10 +111,15 @@ PRESS <entity_id>         - Press a button
 ON <entity_id>            - Turn on light/switch
 OFF <entity_id>           - Turn off light/switch
 LEVEL <entity_id> <0-100> - Set brightness
-LIST                      - List entities
-LISTBUTTONS               - List button entities only
-LISTLIGHTS                - List light entities only
+LIST [filter] [filter]... - List entities (optional filters)
 PING                      - Test connection
+
+LIST examples:
+  LIST                    - All entities
+  LIST BUTTON             - Button entities only
+  LIST LIGHT              - Light entities only
+  LIST KITCHEN            - Entities containing 'kitchen'
+  LIST BUTTON KITCHEN     - Kitchen buttons only
 
 Example: PRESS button.kitchen_keypad_bright
 Example: ON light.living_room
@@ -125,31 +130,34 @@ Example: LEVEL light.living_room 50"""
         return "OK: Connected to Home Assistant" if status == 200 else "ERR: Cannot reach Home Assistant"
 
     elif action == "LIST":
-        entities = get_entity_list()
-        return f"OK: {len(entities)} entities\n" + "\n".join(entities)
-
-    elif action == "LISTBUTTONS":
+        # Get optional filters
+        filters = [f.lower() for f in parts[1:]] if len(parts) > 1 else []
+        
         status, states = ha_request("GET", "states")
-        buttons = []
+        results = []
         if status == 200:
             for entity in states:
                 eid = entity.get("entity_id", "")
-                if eid.startswith("button."):
-                    name = entity.get("attributes", {}).get("friendly_name", eid)
-                    buttons.append(f"{eid} - {name}")
-        return f"OK: {len(buttons)} buttons\n" + "\n".join(buttons)
-
-    elif action == "LISTLIGHTS":
-        status, states = ha_request("GET", "states")
-        lights = []
-        if status == 200:
-            for entity in states:
-                eid = entity.get("entity_id", "")
-                if eid.startswith("light."):
-                    state = entity.get("state", "")
-                    name = entity.get("attributes", {}).get("friendly_name", eid)
-                    lights.append(f"{eid} [{state}] - {name}")
-        return f"OK: {len(lights)} lights\n" + "\n".join(lights)
+                if not eid.startswith(("button.", "light.", "switch.", "cover.", "fan.")):
+                    continue
+                
+                # Apply filters - entity must match ALL filters
+                if filters:
+                    match = True
+                    for f in filters:
+                        # Check if filter matches domain prefix or anywhere in entity_id
+                        if not (eid.startswith(f"{f}.") or f in eid):
+                            match = False
+                            break
+                    if not match:
+                        continue
+                
+                state = entity.get("state", "")
+                name = entity.get("attributes", {}).get("friendly_name", eid)
+                results.append(f"{eid} [{state}] - {name}")
+        
+        filter_desc = f" matching '{' '.join(filters)}'" if filters else ""
+        return f"OK: {len(results)} entities{filter_desc}\n" + "\n".join(results)
 
     elif action == "PRESS":
         if len(parts) < 2:

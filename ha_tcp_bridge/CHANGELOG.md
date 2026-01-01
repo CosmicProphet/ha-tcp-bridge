@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.0.6] - 2025-12-27
+
+### Changed
+- Unified LIST command with optional filters
+- `LIST` - all entities
+- `LIST BUTTON` - filter by domain
+- `LIST KITCHEN` - filter by text match
+- `LIST BUTTON KITCHEN` - multiple filters (AND logic)
+- Removed LISTBUTTONS and LISTLIGHTS (use `LIST BUTTON` and `LIST LIGHT` instead)
+
 ## [1.0.5] - 2025-12-27
 
 ### Added

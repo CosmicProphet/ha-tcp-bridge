@@ -33,8 +33,8 @@ nc <homeassistant-ip> 8124
 | `OFF <entity>` | Turn off light/switch | `OFF light.living_room` |
 | `LEVEL <entity> <0-100>` | Set brightness | `LEVEL light.living_room 75` |
 | `LIST` | List all entities | `LIST` |
-| `LISTBUTTONS` | List button entities | `LISTBUTTONS` |
-| `LISTLIGHTS` | List light entities | `LISTLIGHTS` |
+| `LIST <filter>` | Filter entities | `LIST BUTTON`, `LIST KITCHEN` |
+| `LIST <filter> <filter>` | Multiple filters (AND) | `LIST BUTTON KITCHEN` |
 | `HELP` | Show commands | `HELP` |
 
 ### Response Format
